@@ -1,21 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import {  Product } from '../types';
-
-// Definisi tipe untuk User dan Product
-// interface User {
-//   id: number
-//   username: string
-// }
-
-// interface Product {
-//   id: number
-//   name: string
-//   description: string
-//   price: number
-//   image: string
-//   user?: User
-// }
 
 // Mendefinisikan props dengan type safety
 defineProps < {
