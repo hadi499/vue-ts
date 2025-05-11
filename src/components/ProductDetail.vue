@@ -5,20 +5,6 @@ import { api } from '../api'
 import LoadingSpinner from '../components/LoadingSpinner.vue'
 import { Product } from '../types'
 
-// Definisi tipe
-// interface User {
-//   id: number
-//   username: string
-// }
-
-// interface Product {
-//   id: number
-//   name: string
-//   description: string
-//   price: number
-//   image: string
-//   user?: User
-// }
 
 interface ProductData {
   product: Product
