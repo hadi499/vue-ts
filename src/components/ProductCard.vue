@@ -9,7 +9,9 @@ defineProps < {
 
 <template>
   <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-    <img :src="product.image" :alt="product.name" class="w-full h-48 object-cover" />
+    <img v-if="product.image" :src="product.image" :alt="product.name" class="w-full h-48 object-cover" />
+    <img v-else src="/images/10grey.jpg" alt="Placeholder Image"
+      class="w-full h-[400px] rounded-lg object-cover shadow-md">
     <div class="p-4">
       <div class="flex justify-between items-start">
         <h3 class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>

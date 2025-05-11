@@ -6,19 +6,21 @@ import LoadingSpinner from '../components/LoadingSpinner.vue'
 import { Product } from '../types'
 
 
+interface ProductData {
+  product: Product
+}
 
 const route = useRoute()
 const router = useRouter()
 
-const product = ref<Product | null>(null)
+const productData = ref<ProductData | null>(null)
 const isLoading = ref<boolean>(true)
 const error = ref<string | null>(null)
 
 onMounted(async () => {
   try {
-    const response = await api.get(`/products/${route.params.id}`)
-    console.log(response)  
-    product.value = response.data.product
+    const response = await api.get<ProductData>(`/products/${route.params.id}`)
+    productData.value = response.data
   } catch (err: any) {
     error.value = err.response?.data?.error || 'Failed to fetch product details'
   } finally {
@@ -51,28 +53,27 @@ const handleDelete = async () => {
     </div>
 
     <!-- Product Detail -->
-    <div v-else-if="product" class="bg-white rounded-xl shadow-md overflow-hidden p-4 space-y-4">
+    <div v-else-if="productData?.product" class="bg-white rounded-xl shadow-md overflow-hidden p-4 space-y-4">
       <!-- Gambar -->
-      <img  :src="`${api.defaults.baseURL}/${product.image.replace(/\\/g, '/')}`"
-        :alt="product.name" class="w-full h-[400px] rounded-lg object-cover shadow-md" />
-      
+      <img :src="`${api.defaults.baseURL}/${productData.product.image.replace(/\\/g, '/')}`"
+        :alt="productData.product.name" class="w-full h-[400px] rounded-lg object-cover shadow-md" />
 
       <!-- Info -->
       <div class="space-y-4">
         <h1 class="text-3xl font-semibold text-gray-800">
-          {{ product.name }}
+          {{ productData.product.name }}
         </h1>
         <p class="text-2xl text-indigo-600 font-bold">
-          ${{ product.price }}
+          ${{ productData.product.price }}
         </p>
         <p class="text-gray-500">
-          Posted by: {{ product.user?.username }}
+          Posted by: {{ productData.product.user?.username }}
         </p>
       </div>
 
       <!-- Tombol -->
       <div class="flex flex-wrap gap-4">
-        <router-link :to="`/products/${product.id}/edit`"
+        <router-link :to="`/products/${productData.product.id}/edit`"
           class="px-5 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition">
           Edit
         </router-link>

@@ -25,9 +25,11 @@ onMounted(async () => {
     // Tambahkan base URL ke gambar jika diperlukan
     products.value = response.data.products.map(product => ({
       ...product,
-      image: product.image.startsWith('http')
-        ? product.image
-        : `${api.defaults.baseURL}/${product.image}`
+      image: product.image
+        ? (product.image.startsWith('http')
+          ? product.image
+          : `${api.defaults.baseURL}/${product.image.replace(/\\/g, '/')}`)
+        : "/images/10grey.jpg"
     }))
   } catch (err: any) {
     error.value = err.response?.data?.error || 'Failed to load products'
