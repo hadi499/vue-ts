@@ -5,14 +5,14 @@ import axios, { AxiosError } from 'axios';
 
 // Definisikan tipe user
 interface User {
-  id: number;
+  id: string;
   username: string;
   email: string;
 }
 
 // Definisikan struktur respons login
 interface LoginResponse {
-  id: number;
+  id: string;
   username: string;
   email: string;
   token: string;
@@ -28,6 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(
     localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null
   );
+  // !(not null assertion) -> pasti tidak null
   const token = ref<string | null>(localStorage.getItem('token') || null);
   const router = useRouter();
 
@@ -40,9 +41,12 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await axios.post<LoginResponse>('http://localhost:8080/login', credentials);
 
-      const { id, username, email, token: responseToken } = response.data;
+      // const { id, username, email, token: responseToken } = response.data;
 
-      user.value = { id, username, email };
+      // user.value = { id, username, email };
+
+      const { token: responseToken, ...userData } = response.data;
+      user.value = userData; 
       token.value = responseToken;
 
       localStorage.setItem('user', JSON.stringify(user.value));

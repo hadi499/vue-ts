@@ -1,10 +1,10 @@
 interface User {
-  id: number
+  id: string
   username: string
 }
 
 export interface Product {
-  id: number
+  id: string
   name: string
   description: string
   price: number
